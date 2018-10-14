@@ -1,0 +1,8 @@
+.idea
+.vs-code
+/logs
+/data
+.env
+/.project
+.docker-sync
+.DS_Store

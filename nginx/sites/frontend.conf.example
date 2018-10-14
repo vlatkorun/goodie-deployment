@@ -1,0 +1,25 @@
+server {
+
+    listen 80;
+    listen [::]:80;
+
+    server_name orders.local;
+    root /var/www/frontend/build;
+    index index.html;
+
+    location / {
+         try_files $uri $uri/ /index.html$is_args$args;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/letsencrypt/;
+        log_not_found off;
+    }
+
+    error_log /var/log/nginx/orders.local_error.log;
+    access_log /var/log/nginx/orders.local_access.log;
+}
