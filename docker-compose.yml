@@ -17,7 +17,7 @@ services:
       build:
         context: ./nginx
       volumes:
-        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ${FRONTEND_CODE_PATH_HOST}:${FRONTEND_CODE_PATH_CONTAINER}
         - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
         - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
       ports:
@@ -66,8 +66,24 @@ services:
           - YARN_VERSION=${FRONTEND_YARN_VERSION}
           - TZ=${FRONTEND_TIMEZONE}
       volumes:
-        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ${FRONTEND_CODE_PATH_HOST}:${FRONTEND_CODE_PATH_CONTAINER}
       tty: true
+      networks:
+        - frontend
+        - backend
+
+### backend ##################################
+    backend:
+      build:
+        context: ./backend
+        args:
+          - GO_VERSION=${BACKEND_GO_VERSION}
+      volumes:
+        - ${BACKEND_CODE_PATH_HOST}:${BACKEND_CODE_PATH_CONTAINER}
+      tty: true
+      environment:
+        GO_WORK_DIR: "${BACKEND_PROJECT_DIR}"
+        GO_HTTP_PORT: "${BACKEND_GO_HTTP_PORT}"
       networks:
         - frontend
         - backend
