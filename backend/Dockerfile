@@ -5,7 +5,8 @@ COPY scripts /
 RUN apk add --no-cache \
 		ca-certificates \
 		git \
-		bash
+		bash \
+		curl
 
 # set up nsswitch.conf for Go's "netgo" implementation
 # - https://github.com/golang/go/blob/go1.9.1/src/net/conf.go#L194-L275
@@ -68,6 +69,7 @@ RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" \
     && chmod +x /entrypoint.sh
 
 RUN go get github.com/tockins/realize
+RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 
 WORKDIR $GOPATH
 ENTRYPOINT ["/entrypoint.sh"]

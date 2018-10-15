@@ -76,14 +76,11 @@ services:
     backend:
       build:
         context: ./backend
-        args:
-          - GO_VERSION=${BACKEND_GO_VERSION}
       volumes:
         - ${BACKEND_CODE_PATH_HOST}:${BACKEND_CODE_PATH_CONTAINER}
       tty: true
       environment:
         GO_WORK_DIR: "${BACKEND_PROJECT_DIR}"
-        GO_HTTP_PORT: "${BACKEND_GO_HTTP_PORT}"
       networks:
         - frontend
         - backend
